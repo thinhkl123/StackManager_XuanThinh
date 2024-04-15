@@ -102,7 +102,14 @@ public class Player : MonoBehaviour
                 RemoveBrick(bridge);
             }
         }
-        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            ClearBrick();
+        }
     }
 
     private void AddBrick(Collider collider)
@@ -128,6 +135,19 @@ public class Player : MonoBehaviour
         Destroy(brickTemp);
         visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
         bridge.SetPut();
+    }
+
+
+    private void ClearBrick()
+    {
+        int count = brickList.Count;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject brickTemp = brickList[brickList.Count - 1];
+            brickList.RemoveAt(brickList.Count - 1);
+            Destroy(brickTemp);
+            visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
+        }
     }
 
     private void GetDestination(Direction direction)
