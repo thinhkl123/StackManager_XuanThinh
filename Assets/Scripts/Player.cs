@@ -123,7 +123,9 @@ public class Player : MonoBehaviour
 
     private void RemoveBrick(Bridge bridge)
     {
-        Destroy(brickList[brickList.Count - 1]);
+        GameObject brickTemp = brickList[brickList.Count - 1];
+        brickList.RemoveAt(brickList.Count - 1);
+        Destroy(brickTemp);
         visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
         bridge.SetPut();
     }
@@ -180,7 +182,7 @@ public class Player : MonoBehaviour
             {
                 startPos = theTouch.position;
             }
-            else if (theTouch.phase == TouchPhase.Ended || theTouch.phase == TouchPhase.Moved)
+            else if (theTouch.phase == TouchPhase.Ended /*|| theTouch.phase == TouchPhase.Moved*/)
             {
                 endPos = theTouch.position;
 
