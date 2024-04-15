@@ -5,7 +5,7 @@ using UnityEngine;
 public class BrickPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject brick;
-    private bool isTake;
+    public bool isTake;
 
     private void Awake()
     {

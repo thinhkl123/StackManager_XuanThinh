@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     private Vector3 startPos, endPos;
     private Vector3 destination, offset;
     private List<GameObject> brickList;
+    private bool isJustDown;
     //private bool isFirstTime;
     RaycastHit hit;
 
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
         None
     }
 
-    //private Direction lastDirection;
+    private Direction newDirection;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         destination = transform.position;
         //isFirstTime = true;
         Instance = this;
+        isJustDown = false;
         brickList = new List<GameObject>();
     }
 
@@ -44,7 +46,14 @@ public class Player : MonoBehaviour
         if (Vector3.Distance(transform.position, destination) < 0.1f)
         {
             //Debug.Log("Move");
-            GetDestination(GetDirection());
+            if (newDirection != Direction.None)
+            {
+                GetDestination(newDirection);
+            }
+            else
+            {
+                GetDestination(GetDirection());
+            }
         }
 
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
@@ -84,13 +93,13 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.CompareTag("PlayerBrick"))
+        if (collision.collider.CompareTag("PlayerBrick") || collision.collider.CompareTag("MoveBrick"))
         {
             Debug.Log("AddBrick");
             AddBrick(collision.collider);
         }
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         Bridge bridge = other.GetComponentInParent<Bridge>();
@@ -119,6 +128,11 @@ public class Player : MonoBehaviour
         {
             if (!playerBrick.IsTake())
             {
+                if (isJustDown)
+                {
+                    visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
+                    isJustDown = false;
+                }
                 Debug.Log("PlayerBrick");
                 GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
                 brickList.Add(brick);
@@ -174,6 +188,8 @@ public class Player : MonoBehaviour
                 break;
         }
 
+        newDirection = Direction.None;
+
         while (true)
         {
             RaycastHit hit;
@@ -181,6 +197,24 @@ public class Player : MonoBehaviour
             {
                 //Debug.Log(hit.collider);
                 destination += offset;
+                if (hit.collider.CompareTag("MoveBrick"))
+                {
+                    MoveBrick moveBrick = hit.collider.GetComponentInParent<MoveBrick>();
+                    if (moveBrick != null)
+                    {
+                        Debug.Log("MoveBrick");
+                        if (direction == moveBrick.firstDirection)
+                        {
+                            newDirection = moveBrick.secondDirection;
+                        }
+                        else if (direction == moveBrick.secondDirection)
+                        {
+                            newDirection = moveBrick.firstDirection;
+                        }
+                        Debug.Log(newDirection);
+                        break;
+                    }
+                }
             }
             else
             {

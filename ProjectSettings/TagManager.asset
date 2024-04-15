@@ -8,6 +8,8 @@ TagManager:
   - Brick
   - PlayerBrick
   - Bridge
+  - Push
+  - MoveBrick
   layers:
   - Default
   - TransparentFX
