@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Player : MonoBehaviour
     public static Player Instance
      {  get; private set; }
 
+    public event EventHandler OnWinLevel;
+
     [SerializeField] private float speed = 5f;
     [SerializeField] private LayerMask brickPlayerLayerMask;
     [SerializeField] private GameObject visualGameObject;
@@ -17,6 +20,8 @@ public class Player : MonoBehaviour
     private Vector3 destination, offset;
     private List<GameObject> brickList;
     private bool isJustDown;
+    private Vector3 initPos;
+    private int brickCount;
     //private bool isFirstTime;
     RaycastHit hit;
 
@@ -39,6 +44,27 @@ public class Player : MonoBehaviour
         Instance = this;
         isJustDown = false;
         brickList = new List<GameObject>();
+        initPos = transform.position;
+        brickCount = 0;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnNextLevel += GameManager_OnNextLevel;
+    }
+
+    private void GameManager_OnNextLevel(object sender, System.EventArgs e)
+    {
+        OnInit();   
+    }
+
+    private void OnInit()
+    {
+        transform.position = initPos;
+        isJustDown = false;
+        destination = transform.position;
+        brickList = new List<GameObject>();
+        brickCount = 0;
     }
 
     private void Update()
@@ -118,7 +144,14 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Finish"))
         {
             ClearBrick();
+
+            Invoke(nameof(WinLevel), 1f);
         }
+    }
+
+    private void WinLevel()
+    {
+        OnWinLevel?.Invoke(this, EventArgs.Empty);
     }
 
     private void AddBrick(Collider collider)
@@ -134,8 +167,18 @@ public class Player : MonoBehaviour
                     isJustDown = false;
                 }
                 Debug.Log("PlayerBrick");
-                GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
-                brickList.Add(brick);
+                //GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
+                //brickList.Add(brick);
+                brickCount++;
+                if (brickCount > brickList.Count)
+                {
+                    GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
+                    brickList.Add(brick);
+                }
+                else
+                {
+                    brickList[brickCount - 1].SetActive(true);
+                }
                 visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
                 playerBrick.SetTake();
             }
@@ -144,9 +187,13 @@ public class Player : MonoBehaviour
 
     private void RemoveBrick(Bridge bridge)
     {
+        /*
         GameObject brickTemp = brickList[brickList.Count - 1];
         brickList.RemoveAt(brickList.Count - 1);
         Destroy(brickTemp);
+        */
+        brickCount--;
+        brickList[brickCount].SetActive(false);
         visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
         bridge.SetPut();
     }
