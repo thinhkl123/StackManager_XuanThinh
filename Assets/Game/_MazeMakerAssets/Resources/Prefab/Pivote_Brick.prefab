@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 198701046423287290}
   m_Layer: 6
   m_Name: di
-  m_TagString: Untagged
+  m_TagString: PlayerBrick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,9 +114,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4919342471493218070}
+  - component: {fileID: 5838695330494894168}
   m_Layer: 6
   m_Name: Pivote_Brick
-  m_TagString: Untagged
+  m_TagString: PlayerBrick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,6 +139,19 @@ Transform:
   - {fileID: 4092116075094663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &5838695330494894168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045506591760351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40637baac25d90f49a59376a51221d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brick: {fileID: 1494017965046362}
 --- !u!1 &1494017965046362
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +166,7 @@ GameObject:
   - component: {fileID: 5968391300899368308}
   m_Layer: 6
   m_Name: dimian
-  m_TagString: Brick
+  m_TagString: PlayerBrick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
