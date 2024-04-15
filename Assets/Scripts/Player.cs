@@ -156,10 +156,10 @@ public class Player : MonoBehaviour
 
     private void AddBrick(Collider collider)
     {
-        BrickPlayer playerBrick = collider.GetComponentInParent<BrickPlayer>();
-        if (playerBrick != null)
+        BrickPlayer brickPlayer = collider.GetComponentInParent<BrickPlayer>();
+        if (brickPlayer != null)
         {
-            if (!playerBrick.IsTake())
+            if (!brickPlayer.IsTake())
             {
                 if (isJustDown)
                 {
@@ -172,15 +172,18 @@ public class Player : MonoBehaviour
                 brickCount++;
                 if (brickCount > brickList.Count)
                 {
-                    GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
-                    brickList.Add(brick);
+                    //GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
+                    //brickList.Add(brick);
+                    brickPlayer.SetBrickForPlayer(visualGameObject.transform.position, this.gameObject);
+                    brickList.Add(brickPlayer.GetBrick());
                 }
                 else
                 {
                     brickList[brickCount - 1].SetActive(true);
+                    brickPlayer.HideBrick();
                 }
                 visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
-                playerBrick.SetTake();
+                brickPlayer.SetTake();
             }
         }
     }
@@ -257,6 +260,14 @@ public class Player : MonoBehaviour
                         else if (direction == moveBrick.secondDirection)
                         {
                             newDirection = moveBrick.firstDirection;
+                        }
+                        else if (direction == moveBrick.thirdDirection)
+                        {
+                            newDirection = moveBrick.fourthDirection;
+                        }
+                        else if (direction == moveBrick.fourthDirection)
+                        {
+                            newDirection = moveBrick.thirdDirection;
                         }
                         Debug.Log(newDirection);
                         break;

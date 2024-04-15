@@ -20,7 +20,24 @@ public class BrickPlayer : MonoBehaviour
     public void SetTake()
     {
         isTake = true;
+        //brick.SetActive(false);
+        //Destroy(brick);
+    }
+
+    public void SetBrickForPlayer(Vector3 pos, GameObject parent)
+    {
+        brick.transform.SetParent(parent.transform);
+        brick.transform.localRotation = Quaternion.Euler(-90, 0, -180);
+        brick.transform.position = pos;
+    }
+
+    public GameObject GetBrick()
+    {
+        return brick;
+    }
+
+    public void HideBrick()
+    {
         brick.SetActive(false);
-        Destroy(brick);
     }
 }
