@@ -24,6 +24,11 @@ public class BrickPlayer : MonoBehaviour
         //Destroy(brick);
     }
 
+    public Vector3 GetFirstPosOfBrick()
+    {
+        return brick.transform.position;
+    }
+
     public void SetBrickForPlayer(Vector3 pos, GameObject parent)
     {
         brick.transform.SetParent(parent.transform);

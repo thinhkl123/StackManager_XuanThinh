@@ -48,6 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  brickPlayerLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  visualGameObject: {fileID: 0}
+  brickPb: {fileID: 0}
 --- !u!65 &3340614526698804496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,8 +72,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6555659, y: 0.51222205, z: 0.6090946}
-  m_Center: {x: 0.0027352273, y: 0.24388897, z: 0.0031063557}
+  m_Size: {x: 0.6555659, y: 0.6636099, z: 0.6090946}
+  m_Center: {x: 0.0027352273, y: 0.16819504, z: 0.0031063557}
 --- !u!54 &9037068770094236041
 Rigidbody:
   m_ObjectHideFlags: 0

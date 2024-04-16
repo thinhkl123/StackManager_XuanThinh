@@ -19,8 +19,10 @@ public class Player : MonoBehaviour
     private Vector3 startPos, endPos;
     private Vector3 destination, offset;
     private List<GameObject> brickList;
-    private bool isJustDown;
+    //private bool isJustDown;
+    private bool isFirstTake;
     private Vector3 initPos;
+    private float initPosY;
     private int brickCount;
     //private bool isFirstTime;
     RaycastHit hit;
@@ -42,10 +44,12 @@ public class Player : MonoBehaviour
         destination = transform.position;
         //isFirstTime = true;
         Instance = this;
-        isJustDown = false;
+        //isJustDown = false;
         brickList = new List<GameObject>();
         initPos = transform.position;
+        initPosY = transform.position.y;
         brickCount = 0;
+        isFirstTake = true;
     }
 
     private void Start()
@@ -61,10 +65,11 @@ public class Player : MonoBehaviour
     private void OnInit()
     {
         transform.position = initPos;
-        isJustDown = false;
+        //isJustDown = false;
         destination = transform.position;
         brickList = new List<GameObject>();
         brickCount = 0;
+        isFirstTake = true;
     }
 
     private void Update()
@@ -83,45 +88,13 @@ public class Player : MonoBehaviour
         }
 
         transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
-
-        /*
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 5f, brickPlayerLayerMask))
-        {
-            Debug.Log("Add Brick");
-            Debug.Log(hit.collider.tag);
-            if (hit.collider.CompareTag("PlayerBrick"))
-            {
-                PlayerBrick playerBrick = hit.collider.gameObject.GetComponentInParent<PlayerBrick>();
-                if (playerBrick != null)
-                {
-                    Debug.Log("PlayerBrick");
-                    if (!playerBrick.IsTake())
-                    {
-                        if (!isFirstTime)
-                        {
-                            Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
-                            visualGameObject.transform.position += new Vector3(0, 0.5f, 0);
-                            playerBrick.SetTake();
-                        }
-                        else
-                        {
-                            playerBrick.SetTake();
-                            Instantiate(brickPb, visualGameObject.transform.position + new Vector3(0, -0.5f, 0), brickPb.transform.rotation, this.transform);
-                            isFirstTime = false;
-                        }
-                    }
-                }
-            }
-        }
-        */
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.collider.CompareTag("PlayerBrick") || collision.collider.CompareTag("MoveBrick"))
         {
-            Debug.Log("AddBrick");
+            //Debug.Log("AddBrick");
             AddBrick(collision.collider);
         }
     }
@@ -133,7 +106,7 @@ public class Player : MonoBehaviour
         {
             if (!bridge.IsPut())
             {
-                Debug.Log("RemoveBrick");
+                //Debug.Log("RemoveBrick");
                 RemoveBrick(bridge);
             }
         }
@@ -146,6 +119,11 @@ public class Player : MonoBehaviour
             ClearBrick();
 
             Invoke(nameof(WinLevel), 1f);
+        }
+        else if (other.CompareTag("PlayerBrick") || other.CompareTag("MoveBrick"))
+        {
+            //Debug.Log("AddBrick");
+            AddBrick(other);
         }
     }
 
@@ -161,12 +139,14 @@ public class Player : MonoBehaviour
         {
             if (!brickPlayer.IsTake())
             {
+                /*
                 if (isJustDown)
                 {
                     visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
                     isJustDown = false;
                 }
-                Debug.Log("PlayerBrick");
+                */
+                //Debug.Log("PlayerBrick");
                 //GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
                 //brickList.Add(brick);
                 brickCount++;
@@ -174,15 +154,31 @@ public class Player : MonoBehaviour
                 {
                     //GameObject brick = Instantiate(brickPb, visualGameObject.transform.position, brickPb.transform.rotation, this.transform);
                     //brickList.Add(brick);
-                    brickPlayer.SetBrickForPlayer(visualGameObject.transform.position, this.gameObject);
-                    brickList.Add(brickPlayer.GetBrick());
+                    if (!isFirstTake)
+                    {
+                        brickPlayer.SetBrickForPlayer(visualGameObject.transform.position, this.gameObject);
+                        brickList.Add(brickPlayer.GetBrick());
+                    }
+                    else
+                    {
+                        brickPlayer.SetBrickForPlayer(brickPlayer.GetFirstPosOfBrick(), this.gameObject);
+                        brickList.Add(brickPlayer.GetBrick());
+                    }
                 }
                 else
                 {
                     brickList[brickCount - 1].SetActive(true);
                     brickPlayer.HideBrick();
                 }
-                visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
+
+                if (isFirstTake)
+                {
+                    isFirstTake = false;
+                }
+                else
+                {
+                    visualGameObject.transform.position += new Vector3(0, 0.45f, 0);
+                }
                 brickPlayer.SetTake();
             }
         }
@@ -209,9 +205,12 @@ public class Player : MonoBehaviour
         {
             GameObject brickTemp = brickList[brickList.Count - 1];
             brickList.RemoveAt(brickList.Count - 1);
-            Destroy(brickTemp);
-            visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
+            //Destroy(brickTemp);
+            brickTemp.SetActive(false);
+            //visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
         }
+
+        visualGameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
     private void GetDestination(Direction direction)
@@ -280,7 +279,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        Debug.Log(destination + " " + direction);
+        //Debug.Log(destination + " " + direction);
     }
 
     private Direction GetDirection()
