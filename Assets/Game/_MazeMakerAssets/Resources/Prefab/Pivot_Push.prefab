@@ -136,7 +136,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4653079080655560}
-  m_LocalEulerAnglesHint: {x: -90, y: -0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!137 &137203074759972705
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -350,6 +350,7 @@ MonoBehaviour:
   secondDirection: 0
   thirdDirection: 0
   fourthDirection: 0
+  animator: {fileID: 95409902517891621}
 --- !u!1 &1615225707024875
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +381,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4653079080655560}
-  m_LocalEulerAnglesHint: {x: -90, y: -0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
 --- !u!1 &1884273718471683
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +427,7 @@ Animator:
   m_GameObject: {fileID: 1884273718471683}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e3a2c5e17454a924a96748f5692c8098, type: 2}
-  m_Controller: {fileID: 9100000, guid: be634bff545f61b448cc32e011e1831a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3a1e0dc6025c7b242a003d2d3d12e8ce, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

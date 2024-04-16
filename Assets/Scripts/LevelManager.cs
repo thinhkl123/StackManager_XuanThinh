@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnNextLevel += GameManager_OnNextLevel;
+        GameManager.Instance.OnLoadLevel += GameManager_OnNextLevel;
 
         InitLevel();
         GetLevel(1);

@@ -6,16 +6,26 @@ using UnityEngine.UI;
 public class WinUI : MonoBehaviour
 {
     [SerializeField] private Button nextLevelButton;
+    //[SerializeField] private Button playAgainButton;
 
     private void Start()
     {
         Player.Instance.OnWinLevel += Player_OnWinLevel;
-        GameManager.Instance.OnNextLevel += GameManager_OnNextLevel;
+        GameManager.Instance.OnLoadLevel += GameManager_OnNextLevel;
 
         nextLevelButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.NextLevel();
+            GameManager.Instance.UpdateLevel(1);
+            GameManager.Instance.LoadLevel();
         });
+
+        /*
+        playAgainButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.UpdateLevel(0);
+            GameManager.Instance.LoadLevel();
+        });
+        */
 
         Hide();
     }

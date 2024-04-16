@@ -10,11 +10,13 @@ public class Player : MonoBehaviour
      {  get; private set; }
 
     public event EventHandler OnWinLevel;
+    public event EventHandler OnWin;
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private LayerMask brickPlayerLayerMask;
     [SerializeField] private GameObject visualGameObject;
     [SerializeField] private GameObject brickPb;
+    [SerializeField] private Animator animator;
 
     private Vector3 startPos, endPos;
     private Vector3 destination, offset;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
     }
 
     private Direction newDirection;
+    private MoveBrick curMoveBrick;
 
     private void Awake()
     {
@@ -50,11 +53,12 @@ public class Player : MonoBehaviour
         initPosY = transform.position.y;
         brickCount = 0;
         isFirstTake = true;
+        curMoveBrick = null;
     }
 
     private void Start()
     {
-        GameManager.Instance.OnNextLevel += GameManager_OnNextLevel;
+        GameManager.Instance.OnLoadLevel += GameManager_OnNextLevel;
     }
 
     private void GameManager_OnNextLevel(object sender, System.EventArgs e)
@@ -70,6 +74,8 @@ public class Player : MonoBehaviour
         brickList = new List<GameObject>();
         brickCount = 0;
         isFirstTake = true;
+        curMoveBrick = null;
+        animator.SetInteger("renwu", 0);
     }
 
     private void Update()
@@ -79,6 +85,10 @@ public class Player : MonoBehaviour
             //Debug.Log("Move");
             if (newDirection != Direction.None)
             {
+                if (curMoveBrick != null)
+                {
+                    curMoveBrick.PlayAni();
+                }
                 GetDestination(newDirection);
             }
             else
@@ -118,7 +128,11 @@ public class Player : MonoBehaviour
         {
             ClearBrick();
 
-            Invoke(nameof(WinLevel), 1f);
+            animator.SetInteger("renwu", 2);
+
+            OnWin?.Invoke(this, EventArgs.Empty);
+
+            Invoke(nameof(WinLevel), 2f);
         }
         else if (other.CompareTag("PlayerBrick") || other.CompareTag("MoveBrick"))
         {
@@ -251,24 +265,29 @@ public class Player : MonoBehaviour
                     MoveBrick moveBrick = hit.collider.GetComponentInParent<MoveBrick>();
                     if (moveBrick != null)
                     {
-                        Debug.Log("MoveBrick");
+                        //Debug.Log("MoveBrick");
                         if (direction == moveBrick.firstDirection)
                         {
                             newDirection = moveBrick.secondDirection;
+                            curMoveBrick = moveBrick;
                         }
                         else if (direction == moveBrick.secondDirection)
                         {
                             newDirection = moveBrick.firstDirection;
+                            curMoveBrick = moveBrick;
                         }
                         else if (direction == moveBrick.thirdDirection)
                         {
                             newDirection = moveBrick.fourthDirection;
+                            curMoveBrick = moveBrick;
                         }
                         else if (direction == moveBrick.fourthDirection)
                         {
                             newDirection = moveBrick.thirdDirection;
+                            curMoveBrick = moveBrick;
                         }
-                        Debug.Log(newDirection);
+
+                        //Debug.Log(newDirection);
                         break;
                     }
                 }

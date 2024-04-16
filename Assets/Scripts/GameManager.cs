@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public event EventHandler OnNextLevel;
+    public event EventHandler OnLoadLevel;
 
     private int level;
 
@@ -22,9 +22,14 @@ public class GameManager : MonoBehaviour
         return level;
     }
 
-    public void NextLevel()
+    public void UpdateLevel(int bonus)
     {
-        level++;
-        OnNextLevel?.Invoke(this, EventArgs.Empty); 
+        level += bonus;
+    }
+
+    public void LoadLevel()
+    {
+        //level++;
+        OnLoadLevel?.Invoke(this, EventArgs.Empty); 
     }
 }
