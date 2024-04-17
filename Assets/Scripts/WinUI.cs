@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WinUI : MonoBehaviour
 {
     [SerializeField] private Button nextLevelButton;
-    //[SerializeField] private Button playAgainButton;
+    [SerializeField] private Button playAgainButton;
 
     private void Start()
     {
@@ -22,13 +22,11 @@ public class WinUI : MonoBehaviour
             }
         });
 
-        /*
         playAgainButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.UpdateLevel(0);
+            //GameManager.Instance.UpdateLevel(0);
             GameManager.Instance.LoadLevel();
         });
-        */
 
         Hide();
     }

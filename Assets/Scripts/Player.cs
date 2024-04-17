@@ -209,17 +209,22 @@ public class Player : MonoBehaviour
     }
 
 
-    private void ClearBrick()
+    public void ClearBrick()
     {
         int count = brickList.Count;
         for (int i = 0; i < count; i++)
         {
-            GameObject brickTemp = brickList[brickList.Count - 1];
-            brickList.RemoveAt(brickList.Count - 1);
-            //Destroy(brickTemp);
-            brickTemp.SetActive(false);
+            GameObject brickTemp = brickList[i];
+            //brickList.RemoveAt(brickList.Count - 1);
+            if (brickTemp != null)
+            {
+                Destroy(brickTemp);
+            }
+            //brickTemp.SetActive(false);
             //visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
         }
+
+        brickList.Clear();
 
         visualGameObject.transform.localPosition = new Vector3(0, 0, 0);
     }

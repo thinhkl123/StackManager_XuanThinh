@@ -12,15 +12,17 @@ public class FinishPoint : MonoBehaviour
     private void Start()
     {
         Player.Instance.OnWin += Player_OnWinLevel;
-        GameManager.Instance.OnLoadLevel += GameManager_OnLoadLevel;
+        //GameManager.Instance.OnLoadLevel += GameManager_OnLoadLevel;
 
         Init();
     }
 
+    /*
     private void GameManager_OnLoadLevel(object sender, System.EventArgs e)
     {
         Init();
     }
+    */
 
     private void Player_OnWinLevel(object sender, System.EventArgs e)
     {
