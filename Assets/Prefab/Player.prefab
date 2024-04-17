@@ -47,13 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805e759760f403d41bc46a6ed751dbca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   brickPlayerLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  visualGameObject: {fileID: 0}
-  brickPb: {fileID: 0}
+    m_Bits: 320
+  visualGameObject: {fileID: 643266267436605395}
+  brickPb: {fileID: 2963084417738211033, guid: 0d1b9e7d604f9ab47b104d5d28310f4c, type: 3}
   animator: {fileID: 701681748033983331}
+  tutorialUI: {fileID: 0}
 --- !u!65 &3340614526698804496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -466,6 +467,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c84b41a4245d5c241bc7ff57b0cca3f4, type: 3}
+--- !u!1 &643266267436605395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1665665691852194, guid: c84b41a4245d5c241bc7ff57b0cca3f4, type: 3}
+  m_PrefabInstance: {fileID: 641971480806834801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &701681748033983331 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95809777293889810, guid: c84b41a4245d5c241bc7ff57b0cca3f4, type: 3}

@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < levelList.Count; i++)
         {
             levelList[i].SetActive(false);
+            //FileData.Instance.SaveData(levelList[i], i+1);
         }
     }
 
@@ -40,5 +41,6 @@ public class LevelManager : MonoBehaviour
         //GameObject level = levelList[i-1];
         //Debug.Log(level);
         levelList[i-1].SetActive(true);
+        //FileData.Instance.GetData(levelSpawner, i + 1);
     }
 }

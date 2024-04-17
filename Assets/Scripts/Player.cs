@@ -17,16 +17,15 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject visualGameObject;
     [SerializeField] private GameObject brickPb;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject tutorialUI;
 
     private Vector3 startPos, endPos;
     private Vector3 destination, offset;
     private List<GameObject> brickList;
-    //private bool isJustDown;
     private bool isFirstTake;
     private Vector3 initPos;
     private float initPosY;
     private int brickCount;
-    //private bool isFirstTime;
     RaycastHit hit;
 
     public enum Direction
@@ -43,17 +42,15 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //lastDirection = Direction.None;
         destination = transform.position;
-        //isFirstTime = true;
         Instance = this;
-        //isJustDown = false;
         brickList = new List<GameObject>();
         initPos = transform.position;
         initPosY = transform.position.y;
         brickCount = 0;
         isFirstTake = true;
         curMoveBrick = null;
+        newDirection = Direction.None;
     }
 
     private void Start()
@@ -69,12 +66,12 @@ public class Player : MonoBehaviour
     private void OnInit()
     {
         transform.position = initPos;
-        //isJustDown = false;
         destination = transform.position;
         brickList = new List<GameObject>();
         brickCount = 0;
         isFirstTake = true;
         curMoveBrick = null;
+        newDirection = Direction.None;
         animator.SetInteger("renwu", 0);
     }
 
@@ -235,6 +232,8 @@ public class Player : MonoBehaviour
             return;
         }
 
+        tutorialUI.SetActive(false);
+
         switch (direction)
         {
             case Direction.Left:
@@ -334,6 +333,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        //Debug.Log(dir);
         return dir;
     }
 

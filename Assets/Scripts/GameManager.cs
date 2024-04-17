@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public event EventHandler OnLoadLevel;
 
+    public int LevelMax = 5;
+
     private int level;
 
     private void Awake()

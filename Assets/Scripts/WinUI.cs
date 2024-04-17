@@ -16,7 +16,10 @@ public class WinUI : MonoBehaviour
         nextLevelButton.onClick.AddListener(() =>
         {
             GameManager.Instance.UpdateLevel(1);
-            GameManager.Instance.LoadLevel();
+            if (GameManager.Instance.GetCurrentLevel() <= GameManager.Instance.LevelMax)
+            {
+                GameManager.Instance.LoadLevel();
+            }
         });
 
         /*
