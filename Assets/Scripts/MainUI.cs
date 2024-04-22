@@ -19,6 +19,11 @@ public class MainUI : MonoBehaviour
         });
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnLoadLevel -= GameManager_OnLoadLevel;
+    }
+
     private void GameManager_OnLoadLevel(object sender, System.EventArgs e)
     {
         levelText.text = "Level " + GameManager.Instance.GetCurrentLevel().ToString();

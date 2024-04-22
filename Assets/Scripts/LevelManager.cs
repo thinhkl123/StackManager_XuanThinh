@@ -22,7 +22,12 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.OnLoadLevel += GameManager_OnLoadLevel;
 
         InitLevel();
-        GetLevel(1);
+        //GetLevel(1);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnLoadLevel -= GameManager_OnLoadLevel;
     }
 
     private void GameManager_OnLoadLevel(object sender, System.EventArgs e)

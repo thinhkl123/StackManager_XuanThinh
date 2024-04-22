@@ -31,6 +31,12 @@ public class WinUI : MonoBehaviour
         Hide();
     }
 
+    private void OnDestroy()
+    {
+        Player.Instance.OnWinLevel -= Player_OnWinLevel;
+        GameManager.Instance.OnLoadLevel -= GameManager_OnNextLevel;
+    }
+
     private void GameManager_OnNextLevel(object sender, System.EventArgs e)
     {
         Hide();

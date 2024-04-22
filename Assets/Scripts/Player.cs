@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     public event EventHandler OnWinLevel;
     public event EventHandler OnWin;
+    public event EventHandler OnLose;
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private LayerMask brickPlayerLayerMask;
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
     private float initPosY;
     private int brickCount;
     RaycastHit hit;
+    private bool isLose;
 
     public enum Direction
     {
@@ -51,11 +53,17 @@ public class Player : MonoBehaviour
         isFirstTake = true;
         curMoveBrick = null;
         newDirection = Direction.None;
+        isLose = false;
     }
 
     private void Start()
     {
         GameManager.Instance.OnLoadLevel += GameManager_OnNextLevel;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnLoadLevel -= GameManager_OnNextLevel;
     }
 
     private void GameManager_OnNextLevel(object sender, System.EventArgs e)
@@ -73,10 +81,16 @@ public class Player : MonoBehaviour
         curMoveBrick = null;
         newDirection = Direction.None;
         animator.SetInteger("renwu", 0);
+        isLose = false;
     }
 
     private void Update()
     {
+        if (isLose)
+        {
+            return;
+        }
+
         if (Vector3.Distance(transform.position, destination) < 0.1f)
         {
             //Debug.Log("Move");
@@ -203,9 +217,27 @@ public class Player : MonoBehaviour
         Destroy(brickTemp);
         */
         brickCount--;
-        brickList[brickCount].SetActive(false);
-        visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
+        if (brickCount < 0)
+        {
+            isLose = true;
+            Invoke(nameof(LoseGame), 1f);
+            return;
+        }
+        //brickList[brickCount].SetActive(false);
+        GameObject brick = brickList[brickCount];
+        brickList.RemoveAt(brickCount);
+        brick.transform.position = bridge.GetBrickPos();
+        brick.transform.SetParent(bridge.transform);
+        if (brickCount > 0)
+        {
+            visualGameObject.transform.position += new Vector3(0, -0.45f, 0);
+        }
         bridge.SetPut();
+    }
+
+    private void LoseGame()
+    {
+        OnLose?.Invoke(this, EventArgs.Empty);
     }
 
 

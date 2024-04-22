@@ -9,17 +9,20 @@ public class GameManager : MonoBehaviour
 
     public event EventHandler OnLoadLevel;
     public event EventHandler OnPauseGame;
+    public event EventHandler OnUpdateLevel;
 
-    public int LevelMax = 5;
+    public int LevelMax;
 
     private int level;
     private bool isPaused;
 
     private void Awake()
     {
-        level = 1;
+        //PlayerPrefs.SetInt("Level", 1);
+        level = PlayerPrefs.GetInt("Level",1);
         Instance = this;
         isPaused = true;
+        Time.timeScale = 0f;
     }
 
     public int GetCurrentLevel()
@@ -30,6 +33,19 @@ public class GameManager : MonoBehaviour
     public void UpdateLevel(int bonus)
     {
         level += bonus;
+        PlayerPrefs.SetInt("Level", level);
+        OnUpdateLevel?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetLevel(int idx)
+    {
+        level = idx;
+        //PlayerPrefs.SetInt("Level", level);
+        int curLev = PlayerPrefs.GetInt("Level");
+        if (level > curLev)
+        {
+            PlayerPrefs.SetInt("Level", curLev);
+        }
     }
 
     public void LoadLevel()
@@ -51,6 +67,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
         }
 
-        Debug.Log(isPaused);
+        //Debug.Log(isPaused);
     }
 }

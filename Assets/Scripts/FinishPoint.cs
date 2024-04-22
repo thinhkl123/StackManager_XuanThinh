@@ -11,10 +11,15 @@ public class FinishPoint : MonoBehaviour
 
     private void Start()
     {
-        Player.Instance.OnWin += Player_OnWinLevel;
+        Player.Instance.OnWin += Player_OnWin;
         //GameManager.Instance.OnLoadLevel += GameManager_OnLoadLevel;
 
         Init();
+    }
+
+    private void OnDestroy()
+    {
+        Player.Instance.OnWin -= Player_OnWin;
     }
 
     /*
@@ -24,7 +29,7 @@ public class FinishPoint : MonoBehaviour
     }
     */
 
-    private void Player_OnWinLevel(object sender, System.EventArgs e)
+    private void Player_OnWin(object sender, System.EventArgs e)
     {
         WinState();
     }

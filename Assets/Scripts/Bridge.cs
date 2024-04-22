@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Bridge : MonoBehaviour
 {
-    [SerializeField] private GameObject brick;
+    //[SerializeField] private GameObject brick;
+    [SerializeField] private Transform brickTransform;
     private bool isPut;
 
     private void Awake()
     {
         isPut = false;
-        brick.SetActive(false);
+        //brick.SetActive(false);
     }
 
     public bool IsPut()
@@ -21,6 +22,11 @@ public class Bridge : MonoBehaviour
     public void SetPut()
     {
         isPut = true;
-        brick.SetActive(true);
+        //brick.SetActive(true);
+    }
+
+    public Vector3 GetBrickPos()
+    {
+        return brickTransform.position;
     }
 }
